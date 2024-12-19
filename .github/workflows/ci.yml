@@ -54,34 +54,32 @@ jobs:
       - name: Fix executable permissions
         run: chmod +x bin/*
 
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
+  
+   test:
+  runs-on: ubuntu-latest
 
-    test:
-    runs-on: ubuntu-latest
+  steps:
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
 
-    steps:
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips sqlite3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: .ruby-version
+        bundler-cache: true
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+    - name: Fix executable permissions
+      run: chmod +x bin/*
 
-      - name: Fix executable permissions
-        run: chmod +x bin/*
+    - name: Prepare test database
+      env:
+        RAILS_ENV: test
+      run: bundle exec rails db:test:prepare
 
-      - name: Prepare test database
-        env:
-          RAILS_ENV: test
-        run: bundle exec rails db:test:prepare
-
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-        run: bundle exec rails test test:system
+    - name: Run tests
+      env:
+        RAILS_ENV: test
+      run: bundle exec rails test test:system
