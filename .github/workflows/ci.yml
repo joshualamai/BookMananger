@@ -1,4 +1,4 @@
-name: CI
+name: CI 
 
 on:
   pull_request:
@@ -19,6 +19,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Fix executable permissions
+        run: chmod +x bin/*
+
   scan_js:
     runs-on: ubuntu-latest
 
@@ -32,10 +35,12 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      
+      - name: Fix executable permissions
+        run: chmod +x bin/*
 
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -45,6 +50,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Fix executable permissions
+        run: chmod +x bin/*
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -70,6 +78,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Fix executable permissions
+        run: chmod +x bin/*
 
       - name: Run tests
         env:
