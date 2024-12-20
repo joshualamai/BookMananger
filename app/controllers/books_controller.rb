@@ -15,8 +15,9 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     if @book.save
-      redirect_to books_path, notice: "Book was successfully created."
+      redirect_to books_path, notice: 'Book was successfully created.'
     else
+      flash[:alert] = @book.errors.full_messages.join(", ")
       render :new
     end
   end
@@ -26,15 +27,16 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to books_path, notice: "Book was successfully updated."
+      redirect_to books_path, notice: 'Book was successfully updated.'
     else
+      flash[:alert] = @book.errors.full_messages.join(", ")
       render :edit
     end
   end
 
   def destroy
     @book.destroy
-    redirect_to books_path, notice: "Book was successfully deleted."
+    redirect_to books_path, notice: 'Book was successfully deleted.'
   end
 
   private
@@ -47,19 +49,3 @@ class BooksController < ApplicationController
     params.require(:book).permit(:title, :author, :published_date, :description)
   end
 end
-
-  def destroy
-    @book.destroy
-    flash[:notice] = "Book was successfully deleted."
-    redirect_to books_path
-  end
-
-  private
-
-  def set_book
-    @book = Book.find(params[:id])
-  end
-
-  def book_params
-    params.require(:book).permit(:title, :author, :published_date, :description)
-  end

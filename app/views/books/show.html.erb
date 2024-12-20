@@ -1,12 +1,7 @@
-<div class="card">
-  <div class="card-header bg-info text-white">
-    <h3><%= @book.title %></h3>
-  </div>
-  <div class="card-body">
-    <p><strong>Author:</strong> <span><%= @book.author %></p></span>
-    <p><strong>Published Date:</strong> <span><%= @book.published_date %></p></span>
-    <p><strong>Description:</strong><span> <%= @book.description %></p></span>
-    <%= link_to 'Back to Books', books_path, class: 'btn btn-secondary' %>
-    <%= button_to 'Delete', book_path(@book), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger ml-2' %>
-  </div>
-</div>
+<<h1><%= @book.title %></h1>
+<p><strong>Author:</strong> <%= @book.author %></p>
+<p><strong>Published Date:</strong> <%= @book.published_date %></p>
+<p><strong>Description:</strong> <%= @book.description %></p>
+<%= link_to 'Back to Books', books_path, class: 'btn btn-secondary' %>
+<%= link_to 'Edit', edit_book_path(@book), class: 'btn btn-warning' %>
+<%= link_to 'Delete', book_path(@book), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
